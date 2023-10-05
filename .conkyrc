@@ -46,7 +46,7 @@ conky.config = {
     show_graph_range = false,
     show_graph_scale = false,
     stippled_borders = 0,
-    update_interval = 1.0,
+    update_interval = 0.1,
     uppercase = false,
     use_spacer = 'none',
     use_xft = true,
@@ -74,8 +74,8 @@ ${color grey}Info $color $hr
  ${color grey}Mises-à-jour disponibles${color grey}: ${color}${alignr} ${texeci 1800 echo $(($(apt list --upgradable 2>/dev/null | wc -l) - 1))}${font}
 ${color grey}Battery $color $hr
  ${color grey}Power : ${color}${alignr}${battery_percent BAT1}% 
-  ${battery_bar BAT1 5e7b7b d8deeb}
- ${color grey}Battery:${color}${alignr} ${exec cat /sys/class/hwmon/hwmon0/device/status}
+  ${color 5e7b7b}${battery_bar BAT1}
+ ${color grey}Status:${color}${alignr} ${exec cat /sys/class/hwmon/hwmon0/device/status}
 ${color grey}RAM $color $hr
  ${color grey}RAM Usage:${alignr}$color $mem/$memmax - $memperc% 
   ${memgraph 5e7b7b d8deeb}
@@ -92,14 +92,14 @@ ${color grey}Disk $color $hr
  ${color grey} Disk I/O: ${diskiograph nvme0n1 5e7b7b d8deeb}
 ${color grey}Networking: $color $hr
  ${color grey}Public IP:${alignr}$color ${texeci 60 wget http://checkip.dyndns.org -O - -o /dev/null | cut -d : -f 2 | cut -d \< -f 1}
-${if_match "${addr wlp4s0}" != "No Address"}
+${if_match "${addr wlp4s0}" != "No Address"}\
  ${color grey}wlp4s0:${color}${alignr} ${addr wlp4s0}${color grey}
   Up:$color  ${upspeed wlp4s0}/s
    ${upspeedgraph wlp4s0 5e7b7b d8deeb} ${color grey}
   Down: $color ${downspeed wlp4s0}/s 
    ${downspeedgraph wlp4s0 5e7b7b d8deeb} ${color grey}
-${endif}
-${if_match "${addr eno1}" != "No Address"}
+${endif}\
+${if_match "${addr eno1}" != "No Address"}\
  ${color grey}eno1:${color}${alignr} ${addr eno1}${color grey}
   Up:$color  ${upspeed eno1}/s
    ${upspeedgraph eno1 5e7b7b d8deeb} ${color grey}
